@@ -1,0 +1,335 @@
+---
+title: "Introduction to R Workshop"
+author: "Chanya Punyakumpol"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+date: "Last edited `r format(Sys.Date(), '%B %d, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = 'center', echo = TRUE)
+```
+
+# I. Basic of RStudio
+Comparing R and R Studio: R is like an engine running all the code, while RStudio is a dashboard that users can interact with. It is an interface with add-ons of many convenient features and tools, making R much easier to use. Throughout this workshop, as well as three other sessions, Basic Quantitative Methods, Social Network Analysis, and Text Analysis, we will use R and RStudio.
+
+## A. Download R and RStudio
+First you will have to download R from  https://cloud.r-project.org/.
+Next, download RStudio from https://www.rstudio.com/products/rstudio/download/.
+
+## B. General Statistical Workflow:
+As an overview, 
+
+# II. Basic R Operations and Different Data Types
+## A. Basic Arithmetics
+R can be used as a basic calculator. Let try some basic arithmetic operations.
+
+```{r arithmatic}
+2+3
+4*5-8
+(6/3)+5
+2^3
+5%%2
+```
+
+- Addition: `+`
+- Subtraction: `-`
+- Multiplication: `*`
+- Division: `/`
+- Exponentiation: `^`
+- Modulo: `%%`
+
+## B. Variable Assignments
+In order to assign a value to a variable of your choice, use the operator `<-` as shown in the code below:
+
+```{r variable assign}
+x <- 70
+x
+
+y <- 50
+y
+
+x+y
+
+z <- x+y #combine with the arithmetic operator
+
+z
+
+w <- x-y
+```
+
+What is the value of w?
+
+```{r show w}
+w
+```
+
+## C. Data Types
+Apart from assigning integer values to variables, you can also assign other data types to variables.
+- numeric
+- logical
+- character
+
+```{r different data type}
+numeric_var <- 34.5
+char_var <- "R Workshop"
+logical_var <- TRUE
+```
+
+You can use a function (we will cover this later) `class()` to check the type of variable assigned.
+
+```{r check type}
+class(numeric_var)
+class(char_var)
+class(logical_var)
+```
+
+For a character variable, it should also be noted that R is case-sensitive:
+```{r case-sensitive}
+char_var2 <- "r workshop"
+
+char_var2 == char_var
+```
+
+
+
+# III. Working with Various Data Structure
+There are many ways to store more than one value. We will cover: vector, matrix, factor, data frame, and list. Each is suitable for different contexts.
+
+## A. Vector
+A vector can store one type of data with a dimension n x 1, using the function `c()`
+
+```{r vector}
+score_winter <- c(3, 4, 4, 4, 5, 5, 5, 5, 6)
+student_names <- c("Steve", "Carol", "Sam", "Maddie", "Aaron", "Erin", "Ian", "Kyle", "Lucy")
+```
+
+Alternatively, you can also name the elements in your vector, using `name()` function:
+
+```{r name vector elements}
+names(score_winter) <- student_names
+score_winter
+```
+
+You can also perform arithmetic operations on vectors:
+```{r vector operator}
+score_spring <- c(4, 3, 5, 5, 3, 3, 5, 6, 5)
+names(score_spring) <- student_names
+
+total_score <- score_spring + score_winter
+total_score
+```
+
+Sum of all values in the vector can be calculated using `sum()` function:
+
+```{r sum vector}
+sum_all_score <- sum(total_score)
+average_score <- sum_all_score/9
+average_score
+```
+
+There are different ways to select certain elements in the vector:
+
+```{r select vector element}
+total_score[1]
+total_score[c(2,5,7)]
+total_score[c("Ian", "Kyle")]
+total_score[3:9]
+```
+
+You can also filer for elements with some desired characteristics:
+
+```{r filer vector element}
+selection <- score_winter > 4
+score_winter[selection]
+```
+
+## B. Matrix
+Matrix also store one type of data but with a dimension n x n. We use the function `matrix()` to create a matrix object in R.
+
+```{r create matrix}
+#try this first:
+?matrix
+
+#create a matrix containing a value of 1 to 16 for 4x4 matrix,  2x8 matrix, and 8x2 matrix, respectively
+matrix(1:16, nrow = 4, ncol = 4)
+matrix(1:16, nrow = 2, ncol = 8)
+matrix(1:16, nrow = 8, ncol = 2)
+```
+Note: `?` is a useful command to call R Documentation explaining the specific function you are curious about. R Documentation for each function generally contains Description, Usage, Arguments, Details, and Examples.
+
+Going back to the vectors created earlier, now we will construct a matrix from them.
+
+```{r matrix from vectors}
+score_winter
+score_spring
+
+student_score <- c(score_winter, score_spring)
+student_score
+student_score_matrix <- matrix(student_score, byrow = F, nrow = 9) #byrow indicates whether you are filling the matrix by row first (T) or by column first (F), and nrow indicates the number of 9 for the matrix.
+
+student_score
+student_score_matrix
+```
+
+Notice that in the matrix, the names you have assigned to the vectors are gone. We will rename the rows and columns of this matrix using `rownames()` and `colnames()`.
+
+```{r naming matrix}
+rownames(student_score_matrix) <- student_names
+colnames(student_score_matrix) <- c("Winter", "Spring")
+student_score_matrix
+```
+
+Similar to vector, we can also perform basic arithmetic operations within a matrix:
+
+```{r matrix arithmetic operations}
+total_student_score <- rowSums(student_score_matrix)
+total_student_score
+
+total_score_bySemester <- colSums(student_score_matrix)
+total_score_bySemester
+```
+Now that we have a new column, the next step is adding this new column to the original matrix we have, using `cbind()` function. To add a new row, we use `rbind()` function instead.
+
+```{r adding column}
+all_score_matrix <- cbind(student_score_matrix, total_student_score)
+all_score_matrix
+```
+
+Similar to vectors, we can also select elements in matrices. As a matrix has two dimensions, we have to specify both dimensions. If you want to select all elements in a specific row or column, you can leave the number in column or row blank. Alternatively, specific subsets of a matrix can also be selected.
+
+```{r matrix element selection}
+all_score_matrix[4,3]
+
+#select all elements in a specific row or column
+all_score_matrix[7,]
+all_score_matrix[,1]
+
+#subset of a matrix
+all_score_matrix[3:5,]
+all_score_matrix[,1:2]
+```
+
+## C. Factor
+Factor is a data type containing categorical variables, such as sex (M/F) or grades (A/B/C/D). In order to specify that a certain vector contains factor variables, we use the `factor()` function.
+
+```{r create factor}
+#back to the original example: we assign values to the sex variable for all observations:
+sex_vector <- c("M", "F", "M", "F", "M", "F", "M", "M", "F")
+names(sex_vector) <- student_names
+sex_vector
+#However, this is still a vector with characters, not factor. To turn this into a factor, we use factor():
+
+sex_vector_factor <- factor(sex_vector)
+sex_vector_factor
+```
+
+Alternatively, if you want to code an ordinal categorical such as grades, we add another argument into `factor()`.
+
+```{r ordinal factor}
+winter_grade <- c("D", "C", "C", "C", "B", "B", "B", "B", "A")
+spring_grade <- c("C", "D", "B", "B", "C", "C", "B", "A", "B")
+
+winter_grade_factor <- factor(winter_grade, order = T, levels = c("D", "C", "B", "A"))
+spring_grade_factor <- factor(spring_grade, order = T, levels = c("D", "C", "B", "A"))
+
+winter_grade_factor
+spring_grade_factor
+```
+
+Take a quick overview of the factor variables with `summary()`:
+
+```{r factor summar}
+summary(winter_grade_factor)
+summary(spring_grade_factor)
+```
+
+## D. Data Frame
+As we have covered so far, there are various data types coming with each observation. It is more convenient to combine all into one data set. This can be done by using a data frame as a data structure. A data frame typically contains various variables of different types as columns and each observation as a row, using `data.frame()`.
+
+```{r create data frame}
+student_df <- data.frame(score_winter, score_spring, winter_grade_factor, spring_grade_factor, sex_vector_factor)
+
+student_df
+```
+Useful functions to primarily inspect a data frame are `head()`, which shows you the first few observations and `str()` which shows you the structure of a data frame.
+
+```{r inspect data frame}
+head(student_df)
+str(student_df)
+```
+
+Similar to a matrix, you can also select elements in the data frame.
+
+```{r }
+student_df[3,4]
+student_df[3,] #select one observation
+student_df[,3] #select one variable
+
+#Alternatively, if you know the variable name:
+student_df$winter_grade_factor
+```
+
+Alternatively, you can also use a function `subset()` to select elements in the data frame.
+
+```{r subset data frame}
+?subset
+
+subset(student_df, winter_grade_factor > "C")
+
+subset(student_df, spring_grade_factor == "A")
+
+```
+
+Reorder the data frame by the values of the `spring_grade_factr` variable, using `order()`.
+
+```{r reorder data frame}
+order(student_df$spring_grade_factor)
+student_df[order(student_df$spring_grade_factor),]
+
+#reverse the order:
+student_df[order(student_df$spring_grade_factor, decreasing = T), ]
+
+#only interested in the score in spring semester, ordered by the grade:
+student_df$score_spring[order(student_df$spring_grade_factor, decreasing = T)]
+```
+
+
+## E. List
+List is capable of storing many different types of variables and data structures under one name, a list.
+
+```{r list}
+student_info <- list(winter_grade_factor, spring_grade_factor, student_df)
+student_info
+
+#name each item store in the list
+names(student_info) <- c("winter_grade", "spring_grade", "student_df")
+student_info
+
+#call an item in the list:
+student_info$student_df
+```
+
+# V. Install and Download R Packages
+An R package is a collection of functions, developed and shared by R developers to facilitate certain needs and that are not available in base R (the default package that comes when you have downloaded R).In order to use R Packages, you will need to first install and download the packages into your work space.
+
+## Install R Packages from CRAN
+CRAN stands for the Comprehensive R Archive Network, which is an official R Packages repository storing R packages for free download. We can down R Packages from CRAN by calling the `install.packages()` function. Here, we are installing a `tidyr` package, which we will be using in the next part of this workshop. After installing the package, you must also load the package into your work space by calling the 'library()` function.
+
+```{r install R from CRAN}
+install.packages("tidyr")
+library(tidyr)
+
+#installing multiple packages at once:
+install.packages(c("ggplot2", "dplyr"))
+```
+
+RStudio also provides an easy interface to install and load R packages by simply clicking on `install` button and type the name of the package you want to install. To load the package, simply go to the `Packages` tab and check the box in front of the package you want to load.
+
+## Install R Packages from GitHub
+Alternatively, you can also download the package from GitHub
+
+
+# VI. Importing Data into R
