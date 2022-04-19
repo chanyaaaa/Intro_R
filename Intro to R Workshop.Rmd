@@ -312,24 +312,32 @@ student_info
 student_info$student_df
 ```
 
-# V. Install and Download R Packages
+# IV. Install and Download R Packages
 An R package is a collection of functions, developed and shared by R developers to facilitate certain needs and that are not available in base R (the default package that comes when you have downloaded R).In order to use R Packages, you will need to first install and download the packages into your work space.
 
 ## Install R Packages from CRAN
 CRAN stands for the Comprehensive R Archive Network, which is an official R Packages repository storing R packages for free download. We can down R Packages from CRAN by calling the `install.packages()` function. Here, we are installing a `tidyr` package, which we will be using in the next part of this workshop. After installing the package, you must also load the package into your work space by calling the 'library()` function.
 
 ```{r install R from CRAN}
-install.packages("tidyr")
+#install.packages("tidyr")
 library(tidyr)
 
 #installing multiple packages at once:
-install.packages(c("ggplot2", "dplyr"))
+#install.packages(c("ggplot2", "dplyr"))
 ```
 
 RStudio also provides an easy interface to install and load R packages by simply clicking on `install` button and type the name of the package you want to install. To load the package, simply go to the `Packages` tab and check the box in front of the package you want to load.
 
 ## Install R Packages from GitHub
-Alternatively, you can also download the package from GitHub
+Alternatively, you can also download the package from GitHub using the `install_github()` function from the `devtools` package:
 
+```{r install from github}
+#devtools::install_github("tidyverse/ggplot2")
+```
 
-# VI. Importing Data into R
+# V. Reading Data into R
+Last but not least, I will cover a section on how to read different files into R. Specifically, I will go over different methods to read both flat files, such as .csv, and excel sheets into R.
+
+## Reading flat files
+
+## Reading excel sheets
