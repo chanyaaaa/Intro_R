@@ -754,11 +754,11 @@ student_info$student_df</code></pre>
 ## Lucy                   F</code></pre>
 </div>
 </div>
-<div id="v.-install-and-download-r-packages" class="section level1">
-<h1>V. Install and Download R Packages</h1>
+<div id="iv.-install-and-download-r-packages" class="section level1">
+<h1>IV. Install and Download R Packages</h1>
 <p>An R package is a collection of functions, developed and shared by R developers to facilitate certain needs and that are not available in base R (the default package that comes when you have downloaded R).In order to use R Packages, you will need to first install and download the packages into your work space.</p>
-<div id="install-r-packages-from-cran" class="section level2">
-<h2>Install R Packages from CRAN</h2>
+<div id="a.-install-r-packages-from-cran" class="section level2">
+<h2>A. Install R Packages from CRAN</h2>
 <p>CRAN stands for the Comprehensive R Archive Network, which is an official R Packages repository storing R packages for free download. We can down R Packages from CRAN by calling the <code>install.packages()</code> function. Here, we are installing a <code>tidyr</code> package, which we will be using in the next part of this workshop. After installing the package, you must also load the package into your work space by calling the ’library()` function.</p>
 <pre class="r"><code>#install.packages(&quot;tidyr&quot;)
 library(tidyr)</code></pre>
@@ -767,16 +767,286 @@ library(tidyr)</code></pre>
 #install.packages(c(&quot;ggplot2&quot;, &quot;dplyr&quot;))</code></pre>
 <p>RStudio also provides an easy interface to install and load R packages by simply clicking on <code>install</code> button and type the name of the package you want to install. To load the package, simply go to the <code>Packages</code> tab and check the box in front of the package you want to load.</p>
 </div>
-<div id="install-r-packages-from-github" class="section level2">
-<h2>Install R Packages from GitHub</h2>
+<div id="b.-install-r-packages-from-github" class="section level2">
+<h2>B. Install R Packages from GitHub</h2>
 <p>Alternatively, you can also download the package from GitHub using the <code>install_github()</code> function from the <code>devtools</code> package:</p>
-<pre class="r"><code>devtools::install_github(&quot;tidyverse/ggplot2&quot;)</code></pre>
-<pre><code>## Skipping install of &#39;ggplot2&#39; from a github remote, the SHA1 (37e00947) has not changed since last install.
-##   Use `force = TRUE` to force installation</code></pre>
+<pre class="r"><code>#devtools::install_github(&quot;tidyverse/ggplot2&quot;)</code></pre>
 </div>
 </div>
-<div id="vi.-importing-data-into-r" class="section level1">
-<h1>VI. Importing Data into R</h1>
+<div id="v.-reading-and-exporting-data-into-r" class="section level1">
+<h1>V. Reading and Exporting Data into R</h1>
+<p>Last but not least, I will cover a section on how to read different files into R. Specifically, I will go over different methods to read both flat files, such as .csv, and excel sheets into R.</p>
+<div id="a.-reading-files-from-base-r" class="section level2">
+<h2>A. Reading files from Base R</h2>
+<p>First, we will read .csv file into R using <code>read.csv()</code> from base R. Before running the code, make sure to download the file <a href="https://github.com/chanyaaaa/Intro_R/blob/main/student_data.csv">here</a> and that you have the file in your R directory.</p>
+<pre class="r"><code>student_df &lt;- read.csv(&quot;student_data.csv&quot;)
+student_df</code></pre>
+<pre><code>##     name score_winter score_spring winter_grade_factor spring_grade_factor
+## 1  Steve            3            4                   D                   C
+## 2  Carol            4            3                   C                   D
+## 3    Sam            4            5                   C                   B
+## 4 Maddie            4            5                   C                   B
+## 5  Aaron            5            3                   B                   C
+## 6   Erin            5            3                   B                   C
+## 7    Ian            5            5                   B                   B
+## 8   Kyle            5            6                   B                   A
+## 9   Lucy            6            5                   A                   B
+##   sex_vector_factor
+## 1                 M
+## 2                 F
+## 3                 M
+## 4                 F
+## 5                 M
+## 6                 F
+## 7                 M
+## 8                 M
+## 9                 F</code></pre>
+<pre class="r"><code>#examine the structure of the data frame: do you notice anything different from the previous data frame we have constructed?
+str(student_df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    9 obs. of  6 variables:
+##  $ name               : chr  &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : int  3 4 4 4 5 5 5 5 6
+##  $ score_spring       : int  4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: chr  &quot;D&quot; &quot;C&quot; &quot;C&quot; &quot;C&quot; ...
+##  $ spring_grade_factor: chr  &quot;C&quot; &quot;D&quot; &quot;B&quot; &quot;B&quot; ...
+##  $ sex_vector_factor  : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
+<p>Alternatively, you can also use the <code>read.table()</code> function to download .csv file but with certain specifications: separator is <code>,</code>. This means there are also options for other types of separators.</p>
+<pre class="r"><code>#specify also that the first row is the name header by including the option header = T:
+read.table(&quot;student_data.csv&quot;, header = T, sep = &quot;,&quot;) #a .csv file is basically separated by &quot;,&quot;</code></pre>
+<pre><code>##     name score_winter score_spring winter_grade_factor spring_grade_factor
+## 1  Steve            3            4                   D                   C
+## 2  Carol            4            3                   C                   D
+## 3    Sam            4            5                   C                   B
+## 4 Maddie            4            5                   C                   B
+## 5  Aaron            5            3                   B                   C
+## 6   Erin            5            3                   B                   C
+## 7    Ian            5            5                   B                   B
+## 8   Kyle            5            6                   B                   A
+## 9   Lucy            6            5                   A                   B
+##   sex_vector_factor
+## 1                 M
+## 2                 F
+## 3                 M
+## 4                 F
+## 5                 M
+## 6                 F
+## 7                 M
+## 8                 M
+## 9                 F</code></pre>
+<pre class="r"><code>#Again, do you see the same problem as read.csv() here?</code></pre>
+<p>After inspecting the data imported, we will need to change grade and sex variables into factor, using the <code>as.factor()</code> function:</p>
+<pre class="r"><code>student_df$winter_grade_factor &lt;- factor(student_df$winter_grade_factor, order = T, levels = c(&quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;A&quot;))
+str(student_df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    9 obs. of  6 variables:
+##  $ name               : chr  &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : int  3 4 4 4 5 5 5 5 6
+##  $ score_spring       : int  4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 1 2 2 2 3 3 3 3 4
+##  $ spring_grade_factor: chr  &quot;C&quot; &quot;D&quot; &quot;B&quot; &quot;B&quot; ...
+##  $ sex_vector_factor  : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
+<pre class="r"><code>student_df</code></pre>
+<pre><code>##     name score_winter score_spring winter_grade_factor spring_grade_factor
+## 1  Steve            3            4                   D                   C
+## 2  Carol            4            3                   C                   D
+## 3    Sam            4            5                   C                   B
+## 4 Maddie            4            5                   C                   B
+## 5  Aaron            5            3                   B                   C
+## 6   Erin            5            3                   B                   C
+## 7    Ian            5            5                   B                   B
+## 8   Kyle            5            6                   B                   A
+## 9   Lucy            6            5                   A                   B
+##   sex_vector_factor
+## 1                 M
+## 2                 F
+## 3                 M
+## 4                 F
+## 5                 M
+## 6                 F
+## 7                 M
+## 8                 M
+## 9                 F</code></pre>
+<pre class="r"><code>student_df$spring_grade_factor &lt;- factor(student_df$spring_grade_factor, order = T, levels = c(&quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;A&quot;))
+str(student_df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    9 obs. of  6 variables:
+##  $ name               : chr  &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : int  3 4 4 4 5 5 5 5 6
+##  $ score_spring       : int  4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 1 2 2 2 3 3 3 3 4
+##  $ spring_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 2 1 3 3 2 2 3 4 3
+##  $ sex_vector_factor  : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
+<pre class="r"><code>student_df$sex_vector_factor &lt;- factor(student_df$sex_vector_factor, order = F)
+str(student_df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    9 obs. of  6 variables:
+##  $ name               : chr  &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : int  3 4 4 4 5 5 5 5 6
+##  $ score_spring       : int  4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 1 2 2 2 3 3 3 3 4
+##  $ spring_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 2 1 3 3 2 2 3 4 3
+##  $ sex_vector_factor  : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 1 2 1 2 1 2 2 1</code></pre>
+<pre class="r"><code>#Alternatively, you can also pre-specify the data type in the read.table function:
+student_df &lt;- read.table(&quot;student_data.csv&quot;, header = T, sep = &quot;,&quot;, 
+                         colClasses = c(&quot;character&quot;, &quot;numeric&quot;, &quot;numeric&quot;, &quot;factor&quot;, &quot;factor&quot;, &quot;factor&quot;))
+str(student_df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    9 obs. of  6 variables:
+##  $ name               : chr  &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : num  3 4 4 4 5 5 5 5 6
+##  $ score_spring       : num  4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: Factor w/ 4 levels &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;: 4 3 3 3 2 2 2 2 1
+##  $ spring_grade_factor: Factor w/ 4 levels &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;: 3 4 2 2 3 3 2 1 2
+##  $ sex_vector_factor  : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 1 2 1 2 1 2 2 1</code></pre>
+</div>
+<div id="b.-reading-files-from-the-readr-package" class="section level2">
+<h2>B. Reading files from the <code>readr</code> package</h2>
+<p>The <code>readr</code> package is faster, easier and more efficient than the <code>read.table()</code> from base R. The difference is that the output is a tibble, instead of a data frame. A tibble is basically a data frame but is capable of additional functions, which we will learn later in this workshop.</p>
+<pre class="r"><code>library(readr)
+
+student_df_readr &lt;- read_csv(&quot;student_data.csv&quot;)</code></pre>
+<pre><code>## Rows: 9 Columns: 6── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (4): name, winter_grade_factor, spring_grade_factor, sex_vector_factor
+## dbl (2): score_winter, score_spring
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>str(student_df_readr)</code></pre>
+<pre><code>## spec_tbl_df [9 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ name               : chr [1:9] &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : num [1:9] 3 4 4 4 5 5 5 5 6
+##  $ score_spring       : num [1:9] 4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: chr [1:9] &quot;D&quot; &quot;C&quot; &quot;C&quot; &quot;C&quot; ...
+##  $ spring_grade_factor: chr [1:9] &quot;C&quot; &quot;D&quot; &quot;B&quot; &quot;B&quot; ...
+##  $ sex_vector_factor  : chr [1:9] &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   name = col_character(),
+##   ..   score_winter = col_double(),
+##   ..   score_spring = col_double(),
+##   ..   winter_grade_factor = col_character(),
+##   ..   spring_grade_factor = col_character(),
+##   ..   sex_vector_factor = col_character()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<pre class="r"><code>student_df_readr</code></pre>
+<pre><code>## # A tibble: 9 × 6
+##   name   score_winter score_spring winter_grade_factor spring_grade_factor
+##   &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;               &lt;chr&gt;              
+## 1 Steve             3            4 D                   C                  
+## 2 Carol             4            3 C                   D                  
+## 3 Sam               4            5 C                   B                  
+## 4 Maddie            4            5 C                   B                  
+## 5 Aaron             5            3 B                   C                  
+## 6 Erin              5            3 B                   C                  
+## 7 Ian               5            5 B                   B                  
+## 8 Kyle              5            6 B                   A                  
+## 9 Lucy              6            5 A                   B                  
+## # … with 1 more variable: sex_vector_factor &lt;chr&gt;</code></pre>
+<pre class="r"><code>#do you notice something we need to fix here?</code></pre>
+<p>Again, the data we have displays different data types than what we would want. There is a way to specify which data type for each variable with an option <code>col_types</code> which is equivalent to <code>colClasses</code> in <code>read.table()</code> in base R:</p>
+<ul>
+<li><code>c</code> for character</li>
+<li><code>n</code> for numeric</li>
+<li><code>d</code> for double</li>
+<li><code>i</code> for integer</li>
+<li><code>l</code> for logical</li>
+<li><code>f</code> for factor</li>
+</ul>
+<pre class="r"><code>student_df_readr &lt;- read_csv(&quot;student_data.csv&quot;, col_types = &quot;cnnfff&quot;)
+str(student_df_readr)</code></pre>
+<pre><code>## spec_tbl_df [9 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ name               : chr [1:9] &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : num [1:9] 3 4 4 4 5 5 5 5 6
+##  $ score_spring       : num [1:9] 4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: Factor w/ 4 levels &quot;D&quot;,&quot;C&quot;,&quot;B&quot;,&quot;A&quot;: 1 2 2 2 3 3 3 3 4
+##  $ spring_grade_factor: Factor w/ 4 levels &quot;C&quot;,&quot;D&quot;,&quot;B&quot;,&quot;A&quot;: 1 2 3 3 1 1 3 4 3
+##  $ sex_vector_factor  : Factor w/ 2 levels &quot;M&quot;,&quot;F&quot;: 1 2 1 2 1 2 1 1 2
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   name = col_character(),
+##   ..   score_winter = col_number(),
+##   ..   score_spring = col_number(),
+##   ..   winter_grade_factor = col_factor(levels = NULL, ordered = FALSE, include_na = FALSE),
+##   ..   spring_grade_factor = col_factor(levels = NULL, ordered = FALSE, include_na = FALSE),
+##   ..   sex_vector_factor = col_factor(levels = NULL, ordered = FALSE, include_na = FALSE)
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<pre class="r"><code>#do you notice something missing here?</code></pre>
+<p>Notice that the grade factors are not ordered. If we would like to have an ordinal categorical variable, we will need to further specify the <code>col_types</code> option:</p>
+<pre class="r"><code>of &lt;- col_factor(levels = c(&quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;A&quot;), ordered = T)
+cha &lt;- col_character()
+int &lt;- col_integer()
+fac &lt;- col_factor(levels = c(&quot;F&quot;, &quot;M&quot;))
+student_df_readr &lt;- read_csv(&quot;student_data.csv&quot;, col_types = list(cha, int, int, of, of, fac))
+str(student_df_readr)</code></pre>
+<pre><code>## spec_tbl_df [9 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ name               : chr [1:9] &quot;Steve&quot; &quot;Carol&quot; &quot;Sam&quot; &quot;Maddie&quot; ...
+##  $ score_winter       : int [1:9] 3 4 4 4 5 5 5 5 6
+##  $ score_spring       : int [1:9] 4 3 5 5 3 3 5 6 5
+##  $ winter_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 1 2 2 2 3 3 3 3 4
+##  $ spring_grade_factor: Ord.factor w/ 4 levels &quot;D&quot;&lt;&quot;C&quot;&lt;&quot;B&quot;&lt;&quot;A&quot;: 2 1 3 3 2 2 3 4 3
+##  $ sex_vector_factor  : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 2 1 2 1 2 1 2 2 1
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   name = col_character(),
+##   ..   score_winter = col_integer(),
+##   ..   score_spring = col_integer(),
+##   ..   winter_grade_factor = col_factor(levels = c(&quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;A&quot;), ordered = TRUE, include_na = FALSE),
+##   ..   spring_grade_factor = col_factor(levels = c(&quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;A&quot;), ordered = TRUE, include_na = FALSE),
+##   ..   sex_vector_factor = col_factor(levels = c(&quot;F&quot;, &quot;M&quot;), ordered = FALSE, include_na = FALSE)
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<p>There is also an equivalent function to <code>read.table()</code> in the <code>readr</code> package: <code>read_delim()</code> which you can further customize in the case that the file has a different separator:</p>
+<pre class="r"><code>read_delim(&quot;student_data.csv&quot;, delim = &quot;,&quot;, col_types = list(cha, int, int, of, of, fac))</code></pre>
+<pre><code>## # A tibble: 9 × 6
+##   name   score_winter score_spring winter_grade_factor spring_grade_factor
+##   &lt;chr&gt;         &lt;int&gt;        &lt;int&gt; &lt;ord&gt;               &lt;ord&gt;              
+## 1 Steve             3            4 D                   C                  
+## 2 Carol             4            3 C                   D                  
+## 3 Sam               4            5 C                   B                  
+## 4 Maddie            4            5 C                   B                  
+## 5 Aaron             5            3 B                   C                  
+## 6 Erin              5            3 B                   C                  
+## 7 Ian               5            5 B                   B                  
+## 8 Kyle              5            6 B                   A                  
+## 9 Lucy              6            5 A                   B                  
+## # … with 1 more variable: sex_vector_factor &lt;fct&gt;</code></pre>
+</div>
+<div id="c.-reading-files-from-the-readxl-package" class="section level2">
+<h2>C. Reading files from the <code>readxl</code> package</h2>
+<p>So far, we have only covered the flat file option. What if we want to read data from an excel file? We can do so</p>
+</div>
+<div id="d.-read-data-in-rstudio" class="section level2">
+<h2>D. Read data in RStudio</h2>
+<p>RStudio has a point-and-click option to import a data set, which basically run base R functions, <code>readr</code> functions or <code>readxl</code> functions that we have covered earlier. In order to do so, go to the <code>File</code> tab and select <code>Import Data</code> option.</p>
+</div>
+</div>
+<div id="vi.-some-useful-functions-from-base-r" class="section level1">
+<h1>VI. Some Useful Functions from Base R</h1>
+<div id="a.-length" class="section level2">
+<h2>A. <code>length()</code></h2>
+</div>
+<div id="b.-unique" class="section level2">
+<h2>B. <code>unique()</code></h2>
+</div>
+<div id="c.-nchar" class="section level2">
+<h2>C. <code>nchar()</code></h2>
+</div>
+<div id="d.-math-related-functions" class="section level2">
+<h2>D. math-related functions</h2>
+</div>
+<div id="e.-data-structure-related-functions" class="section level2">
+<h2>E. data-structure related functions</h2>
+<div id="rep" class="section level3">
+<h3><code>rep()</code></h3>
+</div>
+<div id="is.-and-as." class="section level3">
+<h3><code>is.*()</code> and <code>as.*()</code></h3>
+</div>
+<div id="sort-and-order" class="section level3">
+<h3><code>sort()</code> and <code>order()</code></h3>
+</div>
+<div id="append" class="section level3">
+<h3><code>append()</code></h3>
+</div>
+</div>
 </div>
 
 

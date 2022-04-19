@@ -315,7 +315,7 @@ student_info$student_df
 # IV. Install and Download R Packages
 An R package is a collection of functions, developed and shared by R developers to facilitate certain needs and that are not available in base R (the default package that comes when you have downloaded R).In order to use R Packages, you will need to first install and download the packages into your work space.
 
-## Install R Packages from CRAN
+## A. Install R Packages from CRAN
 CRAN stands for the Comprehensive R Archive Network, which is an official R Packages repository storing R packages for free download. We can down R Packages from CRAN by calling the `install.packages()` function. Here, we are installing a `tidyr` package, which we will be using in the next part of this workshop. After installing the package, you must also load the package into your work space by calling the 'library()` function.
 
 ```{r install R from CRAN}
@@ -328,16 +328,126 @@ library(tidyr)
 
 RStudio also provides an easy interface to install and load R packages by simply clicking on `install` button and type the name of the package you want to install. To load the package, simply go to the `Packages` tab and check the box in front of the package you want to load.
 
-## Install R Packages from GitHub
+## B. Install R Packages from GitHub
 Alternatively, you can also download the package from GitHub using the `install_github()` function from the `devtools` package:
 
 ```{r install from github}
 #devtools::install_github("tidyverse/ggplot2")
 ```
 
-# V. Reading Data into R
+# V. Reading and Exporting Data into R
 Last but not least, I will cover a section on how to read different files into R. Specifically, I will go over different methods to read both flat files, such as .csv, and excel sheets into R.
 
-## Reading flat files
+## A. Reading files from Base R
+First, we will read .csv file into R using `read.csv()` from base R. Before running the code, make sure to download the file [here](https://github.com/chanyaaaa/Intro_R/blob/main/student_data.csv) and that you have the file in your R directory.
 
-## Reading excel sheets
+```{r base R}
+student_df <- read.csv("student_data.csv")
+student_df
+
+#examine the structure of the data frame: do you notice anything different from the previous data frame we have constructed?
+str(student_df)
+```
+
+Alternatively, you can also use the `read.table()` function to download .csv file but with certain specifications: separator is `,`. This means there are also options for other types of separators.
+
+```{r read.table}
+#specify also that the first row is the name header by including the option header = T:
+read.table("student_data.csv", header = T, sep = ",") #a .csv file is basically separated by ","
+
+#Again, do you see the same problem as read.csv() here?
+```
+
+After inspecting the data imported, we will need to change grade and sex variables into factor, using the `as.factor()` function:
+
+```{r change to factor}
+student_df$winter_grade_factor <- factor(student_df$winter_grade_factor, order = T, levels = c("D", "C", "B", "A"))
+str(student_df)
+student_df
+
+student_df$spring_grade_factor <- factor(student_df$spring_grade_factor, order = T, levels = c("D", "C", "B", "A"))
+str(student_df)
+
+student_df$sex_vector_factor <- factor(student_df$sex_vector_factor, order = F)
+str(student_df)
+
+#Alternatively, you can also pre-specify the data type in the read.table function:
+student_df <- read.table("student_data.csv", header = T, sep = ",", 
+                         colClasses = c("character", "numeric", "numeric", "factor", "factor", "factor"))
+str(student_df)
+```
+
+
+## B. Reading files from the `readr` package
+The `readr` package is faster, easier and more efficient than the `read.table()` from base R. The difference is that the output is a tibble, instead of a data frame. A tibble is basically a data frame but is capable of additional functions, which we will learn later in this workshop.
+
+```{r load and read_csv}
+library(readr)
+
+student_df_readr <- read_csv("student_data.csv")
+str(student_df_readr)
+student_df_readr
+
+#do you notice something we need to fix here?
+```
+
+Again, the data we have displays different data types than what we would want. There is a way to specify which data type for each variable with an option `col_types` which is equivalent to `colClasses` in `read.table()` in base R:
+
+- `c` for character
+- `n` for numeric
+- `d` for double
+- `i` for integer
+- `l` for logical
+- `f` for factor
+
+```{r specify data type}
+student_df_readr <- read_csv("student_data.csv", col_types = "cnnfff")
+str(student_df_readr)
+
+#do you notice something missing here?
+```
+
+Notice that the grade factors are not ordered. If we would like to have an ordinal categorical variable, we will need to further specify the `col_types` option:
+
+```{r ordinal categorical variable}
+of <- col_factor(levels = c("D", "C", "B", "A"), ordered = T)
+cha <- col_character()
+int <- col_integer()
+fac <- col_factor(levels = c("F", "M"))
+student_df_readr <- read_csv("student_data.csv", col_types = list(cha, int, int, of, of, fac))
+str(student_df_readr)
+```
+
+There is also an equivalent function to `read.table()` in the `readr` package: `read_delim()` which you can further customize in the case that the file has a different separator:
+
+```{r read_delim}
+read_delim("student_data.csv", delim = ",", col_types = list(cha, int, int, of, of, fac))
+```
+
+## C. Reading files from the `readxl` package
+So far, we have only covered the flat file option. What if we want to read data from an excel file? We can do so by using the `readxl` package.
+
+
+
+## D. Read data in RStudio
+RStudio has a point-and-click option to import a data set, which basically run base R functions, `readr` functions or `readxl` functions that we have covered earlier. In order to do so, go to the `File` tab and select `Import Data` option.
+
+# VI. Some Useful Functions from Base R
+
+## A. `length()`
+
+## B. `unique()`
+
+## C. `nchar()`
+
+## D. math-related functions
+
+## E. data-structure related functions
+
+### `rep()`
+
+### `is.*()` and `as.*()`
+
+### `sort()` and `order()`
+
+### `append()`
