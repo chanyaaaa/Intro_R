@@ -19,8 +19,21 @@ Comparing R and R Studio: R is like an engine running all the code, while RStudi
 First you will have to download R from  https://cloud.r-project.org/.
 Next, download RStudio from https://www.rstudio.com/products/rstudio/download/.
 
-## B. General Statistical Workflow:
-As an overview, 
+## B. RStudio
+RStudio has many features that are much more convenient for users. Typically, on the RStudio Screen, you should see four parts:
+
+![](/Users/Chanya/Documents/Intro_R/Picture1.png)
+
+- Console
+- Workspace and History
+- Files, Plots, Packages, and Help
+- R Script and Data View
+
+The console is where you type commands and see the output of your codes. Once you imported the data into R and/or create new variables or a new data frame, these will be shown in the workspace on the top right of the RStudio window under the Environment tab. In the same place, there is also a history tab, which contains a list of commands you have used so far.
+
+Similar to Stata's do file, you can save a record of your coding commands in the R script file to reproduce your work and/or save your progress. The R script file is shown on the top left of the RStudio window. If you click on a data frame saved in the environment, the data view will be available as a tab in the same place as the R script.
+
+To start a new project, first go to File --> New Project --> New Directory --> New Project. Then, name a directory name, this will be the main directory that you have to store relevant files to be used in the project. To select a new path which this R project will be a sub-directory, click on `Browse...` and select the home directory location of your choice.
 
 # II. Basic R Operations and Different Data Types
 ## A. Basic Arithmetics
@@ -335,7 +348,7 @@ Alternatively, you can also download the package from GitHub using the `install_
 #devtools::install_github("tidyverse/ggplot2")
 ```
 
-# V. Reading and Exporting Data into R
+# V. Reading Data into R
 Last but not least, I will cover a section on how to read different files into R. Specifically, I will go over different methods to read both flat files, such as .csv, and excel sheets into R.
 
 ## A. Reading files from Base R
@@ -427,27 +440,26 @@ read_delim("student_data.csv", delim = ",", col_types = list(cha, int, int, of, 
 ## C. Reading files from the `readxl` package
 So far, we have only covered the flat file option. What if we want to read data from an excel file? We can do so by using the `readxl` package.
 
+```{r readxl}
+library(readxl)
+excel_sheets("student_data.xlsx") #show all worksheets
 
+student_df_2021 <- read_excel("student_data.xlsx", sheet = 1)
+student_df_2022 <- read_excel("student_data.xlsx", sheet = 2)
+
+str(student_df_2021)
+str(student_df_2022)
+```
+
+Note that unlike the `readr` package, to specify the variables as factors we will need to work on this after we import data from excel:
+
+```{r indicate factor for read_excel}
+student_df_2021$winter_grade_factor <- factor(student_df_2021$winter_grade_factor, levels = c("D", "C", "B", "A"), ordered = T)
+student_df_2021$spring_grade_factor <- factor(student_df_2021$spring_grade_factor, levels = c("D", "C", "B", "A"), ordered = T)
+student_df_2021$sex_vector_factor <- factor(student_df_2021$sex_vector_factor, levels = c("F", "M"), ordered = F)
+
+str(student_df_2021)
+```
 
 ## D. Read data in RStudio
 RStudio has a point-and-click option to import a data set, which basically run base R functions, `readr` functions or `readxl` functions that we have covered earlier. In order to do so, go to the `File` tab and select `Import Data` option.
-
-# VI. Some Useful Functions from Base R
-
-## A. `length()`
-
-## B. `unique()`
-
-## C. `nchar()`
-
-## D. math-related functions
-
-## E. data-structure related functions
-
-### `rep()`
-
-### `is.*()` and `as.*()`
-
-### `sort()` and `order()`
-
-### `append()`
