@@ -22,22 +22,48 @@ Next, download RStudio from https://www.rstudio.com/products/rstudio/download/.
 ## B. RStudio
 RStudio has many features that are much more convenient for users. Typically, on the RStudio Screen, you should see four parts:
 
-![](/Users/Chanya/Documents/Intro_R/Picture1.png)
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture1.png)
 
 - Console
 - Workspace and History
 - Files, Plots, Packages, and Help
 - R Script and Data View
 
-The console is where you type commands and see the output of your codes. Once you imported the data into R and/or create new variables or a new data frame, these will be shown in the workspace on the top right of the RStudio window under the Environment tab. In the same place, there is also a history tab, which contains a list of commands you have used so far.
+The console is where you type commands and see the output of your codes. Once you imported the data into R and/or create new variables or a new data frame, these will be shown in the workspace on the top right of the RStudio window under the Environment tab. 
 
-Similar to Stata's do file, you can save a record of your coding commands in the R script file to reproduce your work and/or save your progress. The R script file is shown on the top left of the RStudio window. If you click on a data frame saved in the environment, the data view will be available as a tab in the same place as the R script.
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture2.png)
 
-To start a new project, first go to File --> New Project --> New Directory --> New Project. Then, name a directory name, this will be the main directory that you have to store relevant files to be used in the project. To select a new path which this R project will be a sub-directory, click on `Browse...` and select the home directory location of your choice.
+In the same place, there is also a history tab, which contains a list of commands you have used so far.
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture3.png)
+
+Similar to Stata's do file, you can save a record of your coding commands in the R script file to reproduce your work and/or save your progress. The R script file is shown on the top left of the RStudio window.
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture4.png)
+If you click on a data frame saved in the environment, the data view will be available as a tab in the same place as the R script.
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture6.png)
+
+To start a new project, first go to File --> New Project --> New Directory --> New Project. 
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture5.png)
+
+Then, name a directory name, this will be the main directory that you have to store relevant files to be used in the project. To select a new path which this R project will be a sub-directory, click on `Browse...` and select the home directory location of your choice.
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture7.png)
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture8.png)
 
 # II. Basic R Operations and Different Data Types
 ## A. Basic Arithmetics
-R can be used as a basic calculator. Let try some basic arithmetic operations.
+R can be used as a basic calculator. Let's try some basic arithmetic operations.
+
+- Addition: `+`
+- Subtraction: `-`
+- Multiplication: `*`
+- Division: `/`
+- Exponentiation: `^`
+- Modulo: `%%`
 
 ```{r arithmatic}
 2+3
@@ -47,12 +73,6 @@ R can be used as a basic calculator. Let try some basic arithmetic operations.
 5%%2
 ```
 
-- Addition: `+`
-- Subtraction: `-`
-- Multiplication: `*`
-- Division: `/`
-- Exponentiation: `^`
-- Modulo: `%%`
 
 ## B. Variable Assignments
 In order to assign a value to a variable of your choice, use the operator `<-` as shown in the code below:
@@ -116,7 +136,17 @@ A vector can store one type of data with a dimension n x 1, using the function `
 
 ```{r vector}
 score_winter <- c(3, 4, 4, 4, 5, 5, 5, 5, 6)
+
+#let's check what a vector looks like:
+score_winter
+
+#it can also store different types of variable:
 student_names <- c("Steve", "Carol", "Sam", "Maddie", "Aaron", "Erin", "Ian", "Kyle", "Lucy")
+student_names
+
+#it can, however, only hold one type of variable:
+test_vector <- c("Steve", 1)
+class(test_vector) #1 is coerced into a character type.
 ```
 
 Alternatively, you can also name the elements in your vector, using `name()` function:
@@ -270,8 +300,8 @@ student_df
 Useful functions to primarily inspect a data frame are `head()`, which shows you the first few observations and `str()` which shows you the structure of a data frame.
 
 ```{r inspect data frame}
-head(student_df)
 str(student_df)
+head(student_df)
 ```
 
 Similar to a matrix, you can also select elements in the data frame.
@@ -289,11 +319,10 @@ Alternatively, you can also use a function `subset()` to select elements in the 
 
 ```{r subset data frame}
 ?subset
-
+#selecting students with grades greater than C in the winter semester
 subset(student_df, winter_grade_factor > "C")
-
+#selecting students with grades equal to A in the spring semester
 subset(student_df, spring_grade_factor == "A")
-
 ```
 
 Reorder the data frame by the values of the `spring_grade_factr` variable, using `order()`.
@@ -311,7 +340,7 @@ student_df$score_spring[order(student_df$spring_grade_factor, decreasing = T)]
 
 
 ## E. List
-List is capable of storing many different types of variables and data structures under one name, a list.
+List is capable of storing many different types of variables and data structures under one name.
 
 ```{r list}
 student_info <- list(winter_grade_factor, spring_grade_factor, student_df)
@@ -323,6 +352,7 @@ student_info
 
 #call an item in the list:
 student_info$student_df
+student_info[[3]]
 ```
 
 # IV. Install and Download R Packages
@@ -340,6 +370,8 @@ library(tidyr)
 ```
 
 RStudio also provides an easy interface to install and load R packages by simply clicking on `install` button and type the name of the package you want to install. To load the package, simply go to the `Packages` tab and check the box in front of the package you want to load.
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture10.png)
 
 ## B. Install R Packages from GitHub
 Alternatively, you can also download the package from GitHub using the `install_github()` function from the `devtools` package:
@@ -438,7 +470,7 @@ read_delim("student_data.csv", delim = ",", col_types = list(cha, int, int, of, 
 ```
 
 ## C. Reading files from the `readxl` package
-So far, we have only covered the flat file option. What if we want to read data from an excel file? We can do so by using the `readxl` package.
+So far, we have only covered the flat file option. What if we want to read data from an excel file? We can do so by using the `readxl` package. First, download the excel file that we will be working with [here](https://github.com/chanyaaaa/Intro_R/blob/main/student_data.xlsx).
 
 ```{r readxl}
 library(readxl)
@@ -463,3 +495,5 @@ str(student_df_2021)
 
 ## D. Read data in RStudio
 RStudio has a point-and-click option to import a data set, which basically run base R functions, `readr` functions or `readxl` functions that we have covered earlier. In order to do so, go to the `File` tab and select `Import Data` option.
+
+![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture9.png)
