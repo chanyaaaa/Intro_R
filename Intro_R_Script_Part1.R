@@ -1,5 +1,6 @@
 #Introduction to R Workshop Script
-#This is the R Script for the introduction to R workshop organized by the
+#The Graduate Institute of International and Development Studies (IHEID), Geneva
+#This is the R Script for the introduction to R workshop, organized by the Law Department
 #Created by Chanya Punyakumpol, 2022
 
 #I. Basic of RStudio: first download both R and RStudio to your computer.
