@@ -13,7 +13,7 @@
 #Let's start a new project!
 
 #II. Basic R Operations and Different Data Types
-#A. Basic arithmetics
+#A. Basic arithmetic
 2+3
 4*5-8
 (6/3)+5
