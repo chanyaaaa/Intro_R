@@ -311,6 +311,65 @@ student_df_2021$sex_vector_factor <- factor(student_df_2021$sex_vector_factor, l
 
 str(student_df_2021)
 
-#C. Import data in RStudio: RStudio has a point-and-click option to import a data set
+#D. Import data in RStudio: RStudio has a point-and-click option to import a data set
+
+#VI.If-Else statements and for loops
+#A. The If-Else Statement
+if(student_df$winter_grade_factor[1] > "C"){ #the condition inside the parentheses test whether the student in row 1 has a grade greater than C
+  print(student_df$name[1]) #if so, his or her name will be printed out here.
+}
+
+#notice that `print() was not executed in the previous lines of code.
+#Let's try again:
+if(student_df$winter_grade_factor[6] > "C"){ #similarly, this has a similar test for the student in row 6
+  print(student_df$name[6])
+}
+#Now, because Erin (the student in row 6), as a grade greater than "C", the name is printed.
+
+if(student_df$winter_grade_factor[1] > "C") {
+  print("Pass")
+} else {
+  print("Fail")  
+}
+
+#Let's try again with Erin
+if(student_df$winter_grade_factor[6] > "C") {
+  print("Pass")
+} else {
+  print("Fail")  
+}
+
+#B. 
+row_num <- nrow(student_df) #get the number of row, i.e the number of observations in the data set
+#check the number of rows we have:
+row_num
+
+#put in the for-loop:
+for(i in 1:row_num){
+  if(student_df$winter_grade_factor[i] > "C") {
+    cat(student_df$name[i], ": ", "Pass","\n")
+  } else {
+    cat(student_df$name[i], ": ", "Fail", "\n") 
+  }
+}
+
+#VII. Basic Functions
+#A function is particularly useful when you will have to repeat similar lines of code often (which is often the case). 
+#Functions are usually defined in the beginning of the coding script or in a separate R Script, named defined functions - 
+#just to organize them separately.
+
+#This is a basic syntax for a function
+grade_check <- function(name, grade){ #name and grade here are the two arguments you need to put in when using this function
+  if(grade > "C"){ #check if the grade is greater than C.
+    cat(name, ": ", "Pass", "\n")
+  } else {
+    cat(name, ": ", "Fail", "\n")
+  }
+}
+
+#now use the function we just created. The code is much more concise in this fashion.
+for(i in 1:row_num){
+  grade_check(student_df$name[i], student_df$winter_grade_factor[i])
+}
 
 
