@@ -419,6 +419,10 @@ str(student_df)
 #Alternatively, you can also pre-specify the data type in the read.table function:
 student_df <- read.table("student_data.csv", header = T, sep = ",", 
                          colClasses = c("character", "numeric", "numeric", "factor", "factor", "factor"))
+str(student_df) #notice the grade factors: they are not ordinal. You will need to manually change the type of the variable:
+student_df$winter_grade_factor <- factor(student_df$winter_grade_factor, order = T, levels = c("D", "C", "B", "A"))
+student_df$spring_grade_factor <- factor(student_df$spring_grade_factor, order = T, levels = c("D", "C", "B", "A"))
+
 str(student_df)
 ```
 
@@ -497,3 +501,77 @@ str(student_df_2021)
 RStudio has a point-and-click option to import a data set, which basically run base R functions, `readr` functions or `readxl` functions that we have covered earlier. In order to do so, go to the `File` tab and select `Import Data` option.
 
 ![](https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/Picture9.png)
+
+# VI. If & Else Statements and For-Loop
+Writing a code at times may require that you execute a portion of the code if certain conditions are true. Otherwise, you do not wish to execute those lines of code. There are ways to check and/or set a pre-condition, such as a fixed number of time to run the same lines of code for you to utilize. These could be very useful and powerful when you are manipulating or reshaping your data and get them ready for statistical analysis. Hence, in this section, I will cover the if-else statements and the for-loops, which are the backbones of coding you should know before delving into a more elaborate R exercises.
+
+## A. The If-Else Statement
+If and Else Statements exist to change the behavior of your code script. The code within the if-else statement will be executed, once the triggering condition within the if statement returns `TRUE`. The said condition is inside the parentheses. The syntax for the if Statement is as follows.
+
+```{r if statement}
+if(student_df$winter_grade_factor[1] > "C"){ #the condition inside the parentheses test whether the student in row 1 has a grade greater than C
+  print(student_df$name[1]) #if so, his or her name will be printed out here.
+}
+
+#notice that `print() was not executed in the previous lines of code.
+#Let's try again:
+if(student_df$winter_grade_factor[6] > "C"){ #similarly, this has a similar test for the student in row 6
+  print(student_df$name[6])
+}
+
+#Now, because Erin (the student in row 6), as a grade greater than "C", the name is printed.
+```
+Alternatively, there might be times when you want two different sets of code to run, depending on the conditions that are the opposite of each other. You can create an if-statement twice or, more effectively, you can also just check once and tell R which one to run, depending on the result of the if-statement clause. This is called an if-else statement
+
+```{r if-else statement}
+if(student_df$winter_grade_factor[1] > "C") {
+  print("Pass")
+} else {
+  print("Fail")  
+}
+
+#Let's try again with Erin
+if(student_df$winter_grade_factor[6] > "C") {
+  print("Pass")
+} else {
+  print("Fail")  
+}
+```
+
+## B. The For Loop
+However, this is not very convenient to manually check every row. This issue can be solved by using a for-loop, which add another layer of command that would tell the R Code to keep running in loops until you have gone over all rows in the data set. Another useful function is `nrow()` which can check the number of rows and column a data frame or a matrix has.
+
+```{r for-loop}
+row_num <- nrow(student_df) #get the number of row, i.e the number of observations in the data set
+#check the number of rows we have:
+row_num
+
+#put in the for-loop:
+for(i in 1:row_num){
+  if(student_df$winter_grade_factor[i] > "C") {
+    cat(student_df$name[i], ": ", "Pass","\n")
+  } else {
+    cat(student_df$name[i], ": ", "Fail", "\n") 
+  }
+}
+
+```
+
+# VII. Basic Functions
+For coding, it is possible to define a function of your own design. This is particularly useful when you will have to repeat similar lines of code often (which is often the case). Functions are usually defined in the beginning of the coding script or in a separate R Script, named defined functions - just to organize them separately.
+
+```{r define function}
+#first define a function that you would repeat often
+grade_check <- function(name, grade){ #name and grade here are the two arguments you need to put in when using this function
+  if(grade > "C"){ #check if the grade is greater than C.
+    cat(name, ": ", "Pass", "\n")
+  } else {
+    cat(name, ": ", "Fail", "\n")
+  }
+}
+
+#now use the function we just created. The code is much more concise in this fashion.
+for(i in 1:row_num){
+  grade_check(student_df$name[i], student_df$winter_grade_factor[i])
+}
+```
