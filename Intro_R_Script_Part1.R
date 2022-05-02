@@ -242,12 +242,18 @@ devtools::install_github("tidyverse/ggplot2")
 #importing csv use read.csv():
 student_df <- read.csv("student_data.csv")
 student_df
+
+#alternatively, you can also import by loading from the url directly:
+student_url <- "https://raw.githubusercontent.com/chanyaaaa/Intro_R/main/student_data.csv"
+student_df <- read.csv(student_url)
+student_df
+
 #examine the structure of the data frame: do you notice anything different 
 #from the previous data frame we have constructed?
 str(student_df)
 
 #alternatively, you can also use read.table() with a separator "," for csv and "\t" for tab-delimited files:
-read.table("student_data.csv", header = T, sep = ",") #a .csv file is basically separated by ","
+read.table(student_url, header = T, sep = ",") #a .csv file is basically separated by ","
 
 #we need to change grade and sex variables into factors:
 student_df$winter_grade_factor <- factor(student_df$winter_grade_factor, order = T, levels = c("D", "C", "B", "A"))
@@ -261,7 +267,7 @@ student_df$sex_vector_factor <- factor(student_df$sex_vector_factor, order = F)
 str(student_df)
 
 #Alternatively, you can also pre-specify the data type in the read.table function:
-student_df <- read.table("student_data.csv", header = T, sep = ",", 
+student_df <- read.table(student_url, header = T, sep = ",", 
                          colClasses = c("character", "numeric", "numeric", "factor", "factor", "factor"))
 str(student_df)
 
@@ -271,7 +277,7 @@ str(student_df)
 #First, load the library (install the package before if needed):
 library(readr)
 
-student_df_readr <- read_csv("student_data.csv")
+student_df_readr <- read_csv(student_url)
 str(student_df_readr)
 student_df_readr
 
@@ -290,12 +296,13 @@ str(student_df_readr)
 
 #There is also an equivalent function to `read.table()` in the `readr` package: `read_delim()`
 #which you can further customize in the case that the file has a different separator:
-read_delim("student_data.csv", delim = ",", col_types = list(cha, int, int, of, of, fac))
+read_delim(student_url, delim = ",", col_types = list(cha, int, int, of, of, fac))
 
 #C. read excel files from the `readxl` package:
 #load the `readxl` package (install before if needed) 
 #and download the excel files: https://github.com/chanyaaaa/Intro_R/blob/main/student_data.xlsx
 library(readxl)
+
 excel_sheets("student_data.xlsx") #show all worksheets
 
 student_df_2021 <- read_excel("student_data.xlsx", sheet = 1)
