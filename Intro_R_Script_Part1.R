@@ -66,7 +66,7 @@ student_names
 
 #it can, however, only hold one type of variable:
 test_vector <- c("Steve", 1)
-class(test_vetor) #1 is coerced into a character type.
+class(test_vector) #1 is coerced into a character type.
 
 #naming vector elements: names()
 names(score_winter) <- student_names
@@ -272,7 +272,9 @@ student_df <- read.table(student_url, header = T, sep = ",",
 str(student_df)
 
 #However, if you want to specify the grades as ordinal, we still need to use factor() with order = T option.
-
+student_df$winter_grade_factor <- factor(student_df$winter_grade_factor, order = T, levels = c("D", "C", "B", "A"))
+student_df$spring_grade_factor <- factor(student_df$spring_grade_factor, order = T, levels = c("D", "C", "B", "A"))
+str(student_df)
 #B. From the `readr` package:
 #First, load the library (install the package before if needed):
 library(readr)
@@ -335,16 +337,16 @@ if(student_df$winter_grade_factor[6] > "C"){ #similarly, this has a similar test
 #Now, because Erin (the student in row 6), as a grade greater than "C", the name is printed.
 
 if(student_df$winter_grade_factor[1] > "C") {
-  print("Pass")
+  cat(student_df$name[1],": ", "Pass")
 } else {
-  print("Fail")  
+  cat(student_df$name[1],": ", "Fail")
 }
 
 #Let's try again with Erin
 if(student_df$winter_grade_factor[6] > "C") {
-  print("Pass")
+  cat(student_df$name[6],": ", "Pass")
 } else {
-  print("Fail")  
+  cat(student_df$name[6],": ", "Pass") 
 }
 
 #B. 
